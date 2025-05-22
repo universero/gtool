@@ -1,2 +1,0 @@
-@echo off
-gtool.exe %*
