@@ -2,12 +2,14 @@
 Copyright © 2025 universero
 */
 
-package cmd
+package tool
 
 import (
 	"fmt"
 	"os"
 	"time"
+
+	"github.com/universero/gtool/cmd"
 
 	"github.com/spf13/cobra"
 )
@@ -44,7 +46,7 @@ Supported timezone formats:
 }
 
 func init() {
-	rootCmd.AddCommand(nowCmd)
+	cmd.RootCmd.AddCommand(nowCmd)
 	nowCmd.Flags().StringP("tz", "z", "Local", `Timezone specification (e.g. Asia/Shanghai). 
 Valid options: IANA names, 'Local', 'UTC'`)
 }

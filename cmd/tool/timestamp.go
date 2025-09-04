@@ -2,12 +2,14 @@
 Copyright © 2025 universero
 */
 
-package cmd
+package tool
 
 import (
 	"fmt"
 	"strconv"
 	"time"
+
+	"github.com/universero/gtool/cmd"
 
 	"github.com/spf13/cobra"
 )
@@ -56,7 +58,7 @@ Supported timezone formats:
 }
 
 func init() {
-	rootCmd.AddCommand(timestampCmd)
+	cmd.RootCmd.AddCommand(timestampCmd)
 
 	// 添加时区参数
 	timestampCmd.Flags().StringP("tz", "z", "Local", `Timezone specification:
