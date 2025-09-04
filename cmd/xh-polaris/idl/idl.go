@@ -5,10 +5,9 @@ import (
 	"os"
 	"strings"
 	"text/template"
+	"unicode"
 
 	"github.com/spf13/cobra"
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
 )
 
 var (
@@ -40,7 +39,7 @@ func init() {
 	// 添加flags
 	GenServiceCmd.Flags().StringVarP(&commonProto, "common-proto", "c", "", "message文件路径")
 	GenServiceCmd.Flags().StringVarP(&serverProtoFile, "service-proto", "s", "", "service文件路径")
-	GenServiceCmd.Flags().StringVarP(&serviceName, "name", "n", "", "服务名称")
+	GenServiceCmd.Flags().StringVarP(&serviceName, "name", "n", "", "服务名称(蛇形命名)")
 
 	// 标记必需参数
 	if err := GenServiceCmd.MarkFlagRequired("common-proto"); err != nil {
@@ -167,15 +166,27 @@ func generateMethods(messages []Message, exits map[Message]bool) []Method {
 
 // 辅助函数：转换为蛇形命名
 func toSnakeCase(s string) string {
-	// 实现蛇形命名转换逻辑
-	return strings.ToLower(s)
+	return s
 }
 
 // 辅助函数：转换为驼峰命名
 func toCamelCase(s string) string {
 	// 使用 cases.Title 来处理，这里指定简体中文作为语言标签
-	c := cases.Title(language.SimplifiedChinese)
-	return c.String(s)
+	var sb strings.Builder
+	nextUpper := true // 标记下一个字符是否需要大写（用于处理 _ 后的字母）
+	for _, ch := range s {
+		if ch == '_' {
+			nextUpper = true // 遇到下划线，标记下一个字符需要大写
+			continue         // 跳过当前下划线
+		}
+		if nextUpper {
+			sb.WriteRune(unicode.ToUpper(ch)) // 大写当前字符
+			nextUpper = false                 // 重置标记
+		} else {
+			sb.WriteRune(ch) // 否则直接写入字符
+		}
+	}
+	return sb.String()
 }
 
 type Message struct {
