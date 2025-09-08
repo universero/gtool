@@ -171,7 +171,6 @@ func toSnakeCase(s string) string {
 
 // 辅助函数：转换为驼峰命名
 func toCamelCase(s string) string {
-	// 使用 cases.Title 来处理，这里指定简体中文作为语言标签
 	var sb strings.Builder
 	nextUpper := true // 标记下一个字符是否需要大写（用于处理 _ 后的字母）
 	for _, ch := range s {

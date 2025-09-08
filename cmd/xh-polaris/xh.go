@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/universero/gtool/cmd"
 	"github.com/universero/gtool/cmd/xh-polaris/idl"
+	"github.com/universero/gtool/cmd/xh-polaris/mapper"
 )
 
 // XhCmd represents the xh-polaris command
@@ -18,6 +19,7 @@ var XhCmd = &cobra.Command{
 }
 
 func init() {
+	XhCmd.AddCommand(mapper.CmdMapper)
 	XhCmd.AddCommand(idl.CmdIdl)
 	cmd.RootCmd.AddCommand(XhCmd)
 }
